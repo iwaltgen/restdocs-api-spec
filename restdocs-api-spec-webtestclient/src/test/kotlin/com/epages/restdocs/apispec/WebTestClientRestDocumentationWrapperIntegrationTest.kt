@@ -27,7 +27,9 @@ import java.io.File
 
 @ExtendWith(SpringExtension::class)
 @WebFluxTest
-class WebTestClientRestDocumentationWrapperIntegrationTest(@Autowired val webTestClient: WebTestClient) : ResourceSnippetIntegrationTest() {
+class WebTestClientRestDocumentationWrapperIntegrationTest(
+    @Autowired val webTestClient: WebTestClient
+) : ResourceSnippetIntegrationTest() {
 
     @Test
     fun should_document_both_restdocs_and_resource() {
@@ -129,12 +131,12 @@ class WebTestClientRestDocumentationWrapperIntegrationTest(@Autowired val webTes
             .contentType(APPLICATION_JSON)
             .header("X-Custom-Header", "test")
             .accept(APPLICATION_JSON)
-            .syncBody(
+            .bodyValue(
                 """{
-                            "comment": "some",
-                            "flag": $flagValue,
-                            "count": 1
-                        }
+                        "comment": "some",
+                        "flag": $flagValue,
+                        "count": 1
+                    }
                 """.trimIndent()
             )
             .exchange()

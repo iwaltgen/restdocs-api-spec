@@ -31,7 +31,9 @@ import java.io.File
 
 @ExtendWith(SpringExtension::class)
 @WebMvcTest
-class MockMvcRestDocumentationWrapperIntegrationTest(@Autowired private val mockMvc: MockMvc) : ResourceSnippetIntegrationTest() {
+class MockMvcRestDocumentationWrapperIntegrationTest(
+    @Autowired private val mockMvc: MockMvc
+) : ResourceSnippetIntegrationTest() {
 
     @Test
     fun should_document_both_restdocs_and_resource() {

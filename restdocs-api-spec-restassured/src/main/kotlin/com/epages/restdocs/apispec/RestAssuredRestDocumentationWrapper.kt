@@ -13,7 +13,8 @@ import java.util.function.Function
  */
 object RestAssuredRestDocumentationWrapper : RestDocumentationWrapper() {
 
-    @JvmOverloads @JvmStatic
+    @JvmOverloads
+    @JvmStatic
     fun document(
         identifier: String,
         resourceDetails: ResourceSnippetDetails,
@@ -46,7 +47,8 @@ object RestAssuredRestDocumentationWrapper : RestDocumentationWrapper() {
         return RestAssuredRestDocumentation.document(identifier, *enhancedSnippets)
     }
 
-    @JvmOverloads @JvmStatic
+    @JvmOverloads
+    @JvmStatic
     fun document(
         identifier: String,
         description: String? = null,
@@ -97,7 +99,15 @@ object RestAssuredRestDocumentationWrapper : RestDocumentationWrapper() {
         responsePreprocessor: OperationResponsePreprocessor,
         vararg snippets: Snippet
     ): RestDocumentationFilter {
-        return document(identifier, null, null, false, false, responsePreprocessor = responsePreprocessor, snippets = snippets)
+        return document(
+            identifier,
+            null,
+            null,
+            false,
+            false,
+            responsePreprocessor = responsePreprocessor,
+            snippets = snippets
+        )
     }
 
     @JvmStatic
@@ -107,7 +117,16 @@ object RestAssuredRestDocumentationWrapper : RestDocumentationWrapper() {
         responsePreprocessor: OperationResponsePreprocessor,
         vararg snippets: Snippet
     ): RestDocumentationFilter {
-        return document(identifier, null, null, false, false, requestPreprocessor, responsePreprocessor, snippets = snippets)
+        return document(
+            identifier,
+            null,
+            null,
+            false,
+            false,
+            requestPreprocessor,
+            responsePreprocessor,
+            snippets = snippets
+        )
     }
 
     @JvmStatic

@@ -24,7 +24,8 @@ abstract class OpenApiBaseTask : ApiSpecTask() {
     @Optional
     lateinit var tagDescriptions: Map<String, String>
 
-    @Input @Optional
+    @Input
+    @Optional
     var oauth2SecuritySchemeDefinition: PluginOauth2Configuration? = null
 
     override fun outputFileExtension() = format

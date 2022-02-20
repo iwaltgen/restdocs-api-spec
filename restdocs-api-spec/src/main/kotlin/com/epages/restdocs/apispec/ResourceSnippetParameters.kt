@@ -224,15 +224,21 @@ class ResourceSnippetParametersBuilder : ResourceSnippetDetails() {
     fun links(links: List<LinkDescriptor>) = apply { this.links = links }
 
     fun pathParameters(vararg pathParameters: ParameterDescriptorWithType) = pathParameters(pathParameters.toList())
-    fun pathParameters(pathParameters: List<ParameterDescriptorWithType>) = apply { this.pathParameters = pathParameters }
+    fun pathParameters(pathParameters: List<ParameterDescriptorWithType>) =
+        apply { this.pathParameters = pathParameters }
+
     fun pathParameters(vararg pathParameters: ParameterDescriptor) = pathParameters(
         pathParameters.map {
             ParameterDescriptorWithType.fromParameterDescriptor(it)
         }
     )
 
-    fun requestParameters(vararg requestParameters: ParameterDescriptorWithType) = requestParameters(requestParameters.toList())
-    fun requestParameters(requestParameters: List<ParameterDescriptorWithType>) = apply { this.requestParameters = requestParameters }
+    fun requestParameters(vararg requestParameters: ParameterDescriptorWithType) =
+        requestParameters(requestParameters.toList())
+
+    fun requestParameters(requestParameters: List<ParameterDescriptorWithType>) =
+        apply { this.requestParameters = requestParameters }
+
     fun requestParameters(vararg requestParameters: ParameterDescriptor) = requestParameters(
         requestParameters.map {
             ParameterDescriptorWithType.fromParameterDescriptor(it)
@@ -248,7 +254,9 @@ class ResourceSnippetParametersBuilder : ResourceSnippetDetails() {
             }
         )
 
-    fun responseHeaders(responseHeaders: List<HeaderDescriptorWithType>) = apply { this.responseHeaders = responseHeaders }
+    fun responseHeaders(responseHeaders: List<HeaderDescriptorWithType>) =
+        apply { this.responseHeaders = responseHeaders }
+
     fun responseHeaders(vararg responseHeaders: HeaderDescriptorWithType) = responseHeaders(responseHeaders.toList())
     fun responseHeaders(vararg responseHeaders: HeaderDescriptor) = responseHeaders(
         responseHeaders.map { HeaderDescriptorWithType.fromHeaderDescriptor(it) }

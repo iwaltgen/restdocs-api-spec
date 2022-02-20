@@ -13,6 +13,7 @@ class RestdocsOpenApi3TaskTest : RestdocsOpenApiTaskTestBase() {
     override val taskName = "openapi3"
 
     override var outputFileNamePrefix = "openapi3"
+
     @Test
     override fun `should run openapi task`() {
         super.`should run openapi task`()
@@ -70,10 +71,12 @@ class RestdocsOpenApi3TaskTest : RestdocsOpenApiTaskTestBase() {
     private fun thenHeaderWithDefaultValuesContainedInOutput() {
         with(outputFileContext()) {
             then(read<String>("paths./products/{id}.get.parameters[1].name")).isEqualTo("one")
-            then(read<String>("paths./products/{id}.get.parameters[1].description")).isEqualTo("Override request header param")
+            then(read<String>("paths./products/{id}.get.parameters[1].description"))
+                .isEqualTo("Override request header param")
             then(read<Boolean>("paths./products/{id}.get.parameters[1].required")).isEqualTo(FALSE)
             then(read<String>("paths./products/{id}.get.parameters[1].schema.type")).isEqualTo("string")
-            then(read<String>("paths./products/{id}.get.parameters[1].schema.default")).isEqualTo("a default value")
+            then(read<String>("paths./products/{id}.get.parameters[1].schema.default"))
+                .isEqualTo("a default value")
             then(read<String>("paths./products/{id}.get.parameters[1].example")).isEqualTo("one")
         }
     }
@@ -83,7 +86,10 @@ class RestdocsOpenApi3TaskTest : RestdocsOpenApiTaskTestBase() {
     }
 
     fun givenBuildFileWithOpenApiClosureWithSingleServer() {
-        givenBuildFileWithOpenApiClosure("server", """{ url = 'http://some.api' }""")
+        givenBuildFileWithOpenApiClosure(
+            "server",
+            """{ url = 'http://some.api' }"""
+        )
     }
 
     override fun givenBuildFileWithOpenApiClosure() {
@@ -157,9 +163,11 @@ class RestdocsOpenApi3TaskTest : RestdocsOpenApiTaskTestBase() {
     override fun thenSecurityDefinitionsFoundInOutputFile() {
         with(JsonPath.parse(outputFolder.resolve("$outputFileNamePrefix.$format").readText())) {
             then(read<String>("components.securitySchemes.oauth2.type")).isEqualTo("oauth2")
-            then(read<String>("components.securitySchemes.oauth2.flows.authorizationCode.scopes.prod:r")).isEqualTo("Some text")
-            then(read<String>("components.securitySchemes.oauth2.flows.authorizationCode.tokenUrl")).isNotEmpty()
-            then(read<String>("components.securitySchemes.oauth2.flows.authorizationCode.authorizationUrl")).isNotEmpty()
+            then(read<String>("components.securitySchemes.oauth2.flows.authorizationCode.scopes.prod:r"))
+                .isEqualTo("Some text")
+            then(read<String>("components.securitySchemes.oauth2.flows.authorizationCode.tokenUrl")).isNotEmpty
+            then(read<String>("components.securitySchemes.oauth2.flows.authorizationCode.authorizationUrl"))
+                .isNotEmpty
         }
     }
 }

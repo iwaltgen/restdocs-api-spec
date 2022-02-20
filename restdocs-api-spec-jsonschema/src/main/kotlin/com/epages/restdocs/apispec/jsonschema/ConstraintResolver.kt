@@ -30,15 +30,20 @@ internal object ConstraintResolver {
 
     private const val MAX_CONSTRAINT = "javax.validation.constraints.Max"
 
-    internal fun maybeMinSizeArray(fieldDescriptor: FieldDescriptor?) = fieldDescriptor?.maybeSizeConstraint()?.let { it.configuration["min"] as? Int }
+    internal fun maybeMinSizeArray(fieldDescriptor: FieldDescriptor?) =
+        fieldDescriptor?.maybeSizeConstraint()?.let { it.configuration["min"] as? Int }
 
-    internal fun maybeMaxSizeArray(fieldDescriptor: FieldDescriptor?) = fieldDescriptor?.maybeSizeConstraint()?.let { it.configuration["max"] as? Int }
+    internal fun maybeMaxSizeArray(fieldDescriptor: FieldDescriptor?) =
+        fieldDescriptor?.maybeSizeConstraint()?.let { it.configuration["max"] as? Int }
 
-    private fun FieldDescriptor.maybeSizeConstraint() = findConstraints(this).firstOrNull { SIZE_CONSTRAINT == it.name }
+    private fun FieldDescriptor.maybeSizeConstraint() =
+        findConstraints(this).firstOrNull { SIZE_CONSTRAINT == it.name }
 
-    internal fun maybePattern(fieldDescriptor: FieldDescriptor?) = fieldDescriptor?.maybePatternConstraint()?.let { it.configuration["pattern"] as? String }
+    internal fun maybePattern(fieldDescriptor: FieldDescriptor?) =
+        fieldDescriptor?.maybePatternConstraint()?.let { it.configuration["pattern"] as? String }
 
-    private fun FieldDescriptor.maybePatternConstraint() = findConstraints(this).firstOrNull { PATTERN_CONSTRAINT == it.name }
+    private fun FieldDescriptor.maybePatternConstraint() =
+        findConstraints(this).firstOrNull { PATTERN_CONSTRAINT == it.name }
 
     internal fun minLengthString(fieldDescriptor: FieldDescriptor): Int? {
         return findConstraints(fieldDescriptor)
@@ -49,7 +54,10 @@ internal object ConstraintResolver {
                         LENGTH_CONSTRAINT == constraint.name
                     )
             }
-            ?.let { constraint -> if (LENGTH_CONSTRAINT == constraint.name) constraint.configuration["min"] as Int else 1 }
+            ?.let { constraint ->
+                if (LENGTH_CONSTRAINT == constraint.name) constraint.configuration["min"] as Int
+                else 1
+            }
     }
 
     internal fun maxLengthString(fieldDescriptor: FieldDescriptor): Int? {

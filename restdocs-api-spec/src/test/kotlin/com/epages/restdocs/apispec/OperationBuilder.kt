@@ -25,8 +25,6 @@ import org.springframework.restdocs.templates.mustache.AsciidoctorTableCellConte
 import org.springframework.restdocs.templates.mustache.MustacheTemplateEngine
 import java.io.File
 import java.net.URI
-import java.util.ArrayList
-import java.util.HashMap
 
 /**
  * Helper class to support testing snippets by providing a builder for the central Operation class
@@ -256,7 +254,8 @@ class OperationBuilder {
 
         fun buildResponse(): OperationResponse {
             return OperationResponseFactory().create(
-                this.status, this.headers,
+                this.status.value(),
+                this.headers,
                 this.content
             )
         }

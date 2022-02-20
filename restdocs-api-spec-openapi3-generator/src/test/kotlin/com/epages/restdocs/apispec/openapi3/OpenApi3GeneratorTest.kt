@@ -16,9 +16,9 @@ import com.jayway.jsonpath.Configuration
 import com.jayway.jsonpath.DocumentContext
 import com.jayway.jsonpath.JsonPath
 import com.jayway.jsonpath.Option
-import io.swagger.parser.OpenAPIParser
-import io.swagger.parser.models.ParseOptions
 import io.swagger.v3.oas.models.servers.Server
+import io.swagger.v3.parser.OpenAPIV3Parser
+import io.swagger.v3.parser.core.models.ParseOptions
 import org.assertj.core.api.BDDAssertions.then
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -58,10 +58,10 @@ class OpenApi3GeneratorTest {
 
         whenOpenApiObjectGenerated()
 
-        then(openApiJsonPathContext.read<Any>("paths./products/{id}.delete")).isNotNull()
+        then(openApiJsonPathContext.read<Any>("paths./products/{id}.delete")).isNotNull
         then(openApiJsonPathContext.read<Any>("paths./products/{id}.delete.requestBody")).isNull()
 
-        then(openApiJsonPathContext.read<Any>("paths./products/{id}.delete.responses.204")).isNotNull()
+        then(openApiJsonPathContext.read<Any>("paths./products/{id}.delete.responses.204")).isNotNull
         then(openApiJsonPathContext.read<Any>("paths./products/{id}.delete.responses.204.content")).isNull()
         thenOpenApiSpecIsValid()
     }
@@ -73,23 +73,57 @@ class OpenApi3GeneratorTest {
         whenOpenApiObjectGenerated()
 
         val productPatchByIdPath = "paths./products/{id}.patch"
-        then(openApiJsonPathContext.read<Any>("$productPatchByIdPath.requestBody.content.application/json.schema.\$ref")).isNotNull()
-        then(openApiJsonPathContext.read<Any>("$productPatchByIdPath.requestBody.content.application/json.examples.test")).isNotNull()
-        then(openApiJsonPathContext.read<Any>("$productPatchByIdPath.requestBody.content.application/json-patch+json.schema.\$ref")).isNotNull()
-        then(openApiJsonPathContext.read<Any>("$productPatchByIdPath.requestBody.content.application/json-patch+json.examples.test-1")).isNotNull()
+        then(
+            openApiJsonPathContext
+                .read<Any>("$productPatchByIdPath.requestBody.content.application/json.schema.\$ref")
+        ).isNotNull
+        then(
+            openApiJsonPathContext
+                .read<Any>("$productPatchByIdPath.requestBody.content.application/json.examples.test")
+        ).isNotNull
+        then(
+            openApiJsonPathContext
+                .read<Any>("$productPatchByIdPath.requestBody.content.application/json-patch+json.schema.\$ref")
+        ).isNotNull
+        then(
+            openApiJsonPathContext
+                .read<Any>("$productPatchByIdPath.requestBody.content.application/json-patch+json.examples.test-1")
+        ).isNotNull
 
-        then(openApiJsonPathContext.read<Any>("$productPatchByIdPath.responses.200.content.application/json.schema.\$ref")).isNotNull()
-        then(openApiJsonPathContext.read<Any>("$productPatchByIdPath.responses.200.content.application/json.examples.test")).isNotNull()
-        then(openApiJsonPathContext.read<Any>("$productPatchByIdPath.responses.200.content.application/hal+json.schema.\$ref")).isNotNull()
-        then(openApiJsonPathContext.read<Any>("$productPatchByIdPath.responses.200.content.application/hal+json.examples.test-1")).isNotNull()
+        then(
+            openApiJsonPathContext
+                .read<Any>("$productPatchByIdPath.responses.200.content.application/json.schema.\$ref")
+        ).isNotNull
+        then(
+            openApiJsonPathContext
+                .read<Any>("$productPatchByIdPath.responses.200.content.application/json.examples.test")
+        ).isNotNull
+        then(
+            openApiJsonPathContext
+                .read<Any>("$productPatchByIdPath.responses.200.content.application/hal+json.schema.\$ref")
+        ).isNotNull
+        then(
+            openApiJsonPathContext
+                .read<Any>("$productPatchByIdPath.responses.200.content.application/hal+json.examples.test-1")
+        ).isNotNull
 
-        val schema1 = openApiJsonPathContext.read<String>("$productPatchByIdPath.responses.200.content.application/json.schema.\$ref")
-        val schema2 = openApiJsonPathContext.read<String>("$productPatchByIdPath.responses.200.content.application/hal+json.schema.\$ref")
+        val schema1 =
+            openApiJsonPathContext
+                .read<String>("$productPatchByIdPath.responses.200.content.application/json.schema.\$ref")
+        val schema2 =
+            openApiJsonPathContext
+                .read<String>("$productPatchByIdPath.responses.200.content.application/hal+json.schema.\$ref")
         then(schema1).isEqualTo("#/components/schemas/schema1")
         then(schema2).isEqualTo("#/components/schemas/schema2")
 
-        then(openApiJsonPathContext.read<Any>("${schema1.replaceFirst("#/", "").replace("/", ".")}")).isNotNull()
-        then(openApiJsonPathContext.read<Any>("${schema2.replaceFirst("#/", "").replace("/", ".")}")).isNotNull()
+        then(
+            openApiJsonPathContext
+                .read<Any>("${schema1.replaceFirst("#/", "").replace("/", ".")}")
+        ).isNotNull
+        then(
+            openApiJsonPathContext
+                .read<Any>("${schema2.replaceFirst("#/", "").replace("/", ".")}")
+        ).isNotNull
 
         thenOpenApiSpecIsValid()
     }
@@ -101,9 +135,18 @@ class OpenApi3GeneratorTest {
         whenOpenApiObjectGenerated()
 
         val productGetByIdPath = "paths./products/{id}.get"
-        then(openApiJsonPathContext.read<Any>("$productGetByIdPath.responses.200.content.application/json.schema.\$ref")).isNotNull()
-        then(openApiJsonPathContext.read<Any>("$productGetByIdPath.responses.200.content.application/json.examples.test")).isNotNull()
-        then(openApiJsonPathContext.read<Any>("$productGetByIdPath.responses.200.content.application/json.examples.test-1")).isNotNull()
+        then(
+            openApiJsonPathContext
+                .read<Any>("$productGetByIdPath.responses.200.content.application/json.schema.\$ref")
+        ).isNotNull
+        then(
+            openApiJsonPathContext
+                .read<Any>("$productGetByIdPath.responses.200.content.application/json.examples.test")
+        ).isNotNull
+        then(
+            openApiJsonPathContext
+                .read<Any>("$productGetByIdPath.responses.200.content.application/json.examples.test-1")
+        ).isNotNull
 
         thenOpenApiSpecIsValid()
     }
@@ -115,10 +158,22 @@ class OpenApi3GeneratorTest {
         whenOpenApiObjectGenerated()
 
         val productGetByIdPath = "paths./products/{id}.get"
-        then(openApiJsonPathContext.read<Any>("$productGetByIdPath.responses.200.content.application/json.schema.\$ref")).isNotNull()
-        then(openApiJsonPathContext.read<Any>("$productGetByIdPath.responses.200.content.application/json.examples.test")).isNotNull()
-        then(openApiJsonPathContext.read<Any>("$productGetByIdPath.responses.400.content.application/json.schema.\$ref")).isNotNull()
-        then(openApiJsonPathContext.read<Any>("$productGetByIdPath.responses.400.content.application/json.examples.test-1")).isNotNull()
+        then(
+            openApiJsonPathContext
+                .read<Any>("$productGetByIdPath.responses.200.content.application/json.schema.\$ref")
+        ).isNotNull
+        then(
+            openApiJsonPathContext
+                .read<Any>("$productGetByIdPath.responses.200.content.application/json.examples.test")
+        ).isNotNull
+        then(
+            openApiJsonPathContext
+                .read<Any>("$productGetByIdPath.responses.400.content.application/json.schema.\$ref")
+        ).isNotNull
+        then(
+            openApiJsonPathContext
+                .read<Any>("$productGetByIdPath.responses.400.content.application/json.examples.test-1")
+        ).isNotNull
 
         thenOpenApiSpecIsValid()
     }
@@ -129,8 +184,10 @@ class OpenApi3GeneratorTest {
 
         whenOpenApiObjectGenerated()
 
-        val patchResponseSchemaRef = openApiJsonPathContext.read<String>("paths./products/{id}.patch.responses.200.content.application/json.schema.\$ref")
-        val getResponseSchemaRef = openApiJsonPathContext.read<String>("paths./products/{id}.get.responses.200.content.application/json.schema.\$ref")
+        val patchResponseSchemaRef = openApiJsonPathContext
+            .read<String>("paths./products/{id}.patch.responses.200.content.application/json.schema.\$ref")
+        val getResponseSchemaRef = openApiJsonPathContext
+            .read<String>("paths./products/{id}.get.responses.200.content.application/json.schema.\$ref")
         then(patchResponseSchemaRef).isEqualTo(getResponseSchemaRef)
 
         val schemaId = getResponseSchemaRef.removePrefix("#/components/schemas/")
@@ -145,11 +202,12 @@ class OpenApi3GeneratorTest {
 
         whenOpenApiObjectGenerated()
 
-        val params = openApiJsonPathContext.read<List<Map<String, String>>>("paths./products/{id}.get.parameters.*")
+        val params = openApiJsonPathContext
+            .read<List<Map<String, String>>>("paths./products/{id}.get.parameters.*")
 
         then(params).anyMatch { it["name"] == "id" }
         then(params).anyMatch { it["name"] == "locale" }
-        then(params).anyMatch { it["name"] == "color" && it["description"] == "Changes the color of the product" }
+        then(params).anyMatch { it["name"] == "color" && it["description"] == "Changes the color desc" }
         then(params).anyMatch { it["name"] == "Authorization" }
         then(params).hasSize(4) // should not contain duplicated parameter descriptions
 
@@ -203,7 +261,7 @@ class OpenApi3GeneratorTest {
 
         whenOpenApiObjectGenerated()
 
-        thenResourceHasFormDataInRequestBodyAndNotAsQueryParameters(method.toString().toLowerCase())
+        thenResourceHasFormDataInRequestBodyAndNotAsQueryParameters(method.toString().lowercase())
     }
 
     @Test
@@ -214,7 +272,7 @@ class OpenApi3GeneratorTest {
 
         whenOpenApiObjectGenerated()
 
-        thenResourceHasFormDataInRequestBodyAndNotAsQueryParameters(method.toString().toLowerCase())
+        thenResourceHasFormDataInRequestBodyAndNotAsQueryParameters(method.toString().lowercase())
     }
 
     @Test
@@ -225,7 +283,7 @@ class OpenApi3GeneratorTest {
 
         whenOpenApiObjectGenerated()
 
-        thenResourceHasValidSchemaGeneratedFromRequestParameters(method.toString().toLowerCase())
+        thenResourceHasValidSchemaGeneratedFromRequestParameters(method.toString().lowercase())
     }
 
     @Test
@@ -325,61 +383,140 @@ class OpenApi3GeneratorTest {
     }
 
     fun thenResourceHasValidSchemaGeneratedFromRequestParameters(method: String) {
-        val productGetByIdPath = "paths./products/{id}.$method"
-        val getResponseSchemaRef = openApiJsonPathContext.read<String>("$productGetByIdPath.requestBody.content.application/x-www-form-urlencoded.schema.\$ref")
+        val productGetById = "paths./products/{id}.$method"
+        val getResponseSchemaRef = openApiJsonPathContext
+            .read<String>("$productGetById.requestBody.content.application/x-www-form-urlencoded.schema.\$ref")
         val schemaId = getResponseSchemaRef.removePrefix("#/components/schemas/")
-        then(openApiJsonPathContext.read<String>("components.schemas.$schemaId.properties.locale.type")).isEqualTo("string")
-        then(openApiJsonPathContext.read<String>("components.schemas.$schemaId.properties.locale.description")).isEqualTo("Localizes the product fields to the given locale code")
+        then(
+            openApiJsonPathContext
+                .read<String>("components.schemas.$schemaId.properties.locale.type")
+        ).isEqualTo("string")
+        then(
+            openApiJsonPathContext
+                .read<String>("components.schemas.$schemaId.properties.locale.description")
+        ).isEqualTo("Localizes the product fields to the given locale code")
     }
 
     fun thenResourceHasFormDataInRequestBodyAndNotAsQueryParameters(method: String) {
         val productGetByIdPath = "paths./products/{id}.$method"
 
-        then(openApiJsonPathContext.read<List<String>>("$productGetByIdPath.parameters[?(@.name == 'locale')]")).isEmpty()
-        then(openApiJsonPathContext.read<List<String>>("$productGetByIdPath.requestBody.content[?(@.name == 'application/x-www-form-urlencoded')]")).isNotNull()
+        then(
+            openApiJsonPathContext
+                .read<List<String>>("$productGetByIdPath.parameters[?(@.name == 'locale')]")
+        ).isEmpty()
+        then(
+            openApiJsonPathContext
+                .read<List<String>>(
+                    "$productGetByIdPath.requestBody.content[?(@.name == 'application/x-www-form-urlencoded')]"
+                )
+        ).isNotNull
 
-        val getResponseSchemaRef = openApiJsonPathContext.read<String>("$productGetByIdPath.requestBody.content.application/x-www-form-urlencoded.schema.\$ref")
+        val getResponseSchemaRef = openApiJsonPathContext
+            .read<String>("$productGetByIdPath.requestBody.content.application/x-www-form-urlencoded.schema.\$ref")
         val schemaId = getResponseSchemaRef.removePrefix("#/components/schemas/")
         then(openApiJsonPathContext.read<String>("components.schemas.$schemaId.type")).isEqualTo("object")
     }
 
     fun thenGetProductByIdOperationIsValid() {
         val productGetByIdPath = "paths./products/{id}.get"
-        then(openApiJsonPathContext.read<List<String>>("$productGetByIdPath.tags")).isNotNull()
-        then(openApiJsonPathContext.read<String>("$productGetByIdPath.operationId")).isNotNull()
-        then(openApiJsonPathContext.read<String>("$productGetByIdPath.summary")).isNotNull()
-        then(openApiJsonPathContext.read<String>("$productGetByIdPath.description")).isNotNull()
+        then(openApiJsonPathContext.read<List<String>>("$productGetByIdPath.tags")).isNotNull
+        then(openApiJsonPathContext.read<String>("$productGetByIdPath.operationId")).isNotNull
+        then(openApiJsonPathContext.read<String>("$productGetByIdPath.summary")).isNotNull
+        then(openApiJsonPathContext.read<String>("$productGetByIdPath.description")).isNotNull
         then(openApiJsonPathContext.read<Any>("$productGetByIdPath.deprecated")).isNull()
 
-        then(openApiJsonPathContext.read<List<String>>("$productGetByIdPath.parameters[?(@.name == 'id')].in")).containsOnly("path")
-        then(openApiJsonPathContext.read<List<Boolean>>("$productGetByIdPath.parameters[?(@.name == 'id')].required")).containsOnly(true)
-        then(openApiJsonPathContext.read<List<String>>("$productGetByIdPath.parameters[?(@.name == 'id')].schema.type")).containsOnly("integer")
-        then(openApiJsonPathContext.read<List<String>>("$productGetByIdPath.parameters[?(@.name == 'id')].schema.default")).isEmpty()
-        then(openApiJsonPathContext.read<List<String>>("$productGetByIdPath.parameters[?(@.name == 'locale')].in")).containsOnly("query")
-        then(openApiJsonPathContext.read<List<Boolean>>("$productGetByIdPath.parameters[?(@.name == 'locale')].required")).containsOnly(false)
-        then(openApiJsonPathContext.read<List<String>>("$productGetByIdPath.parameters[?(@.name == 'locale')].schema.type")).containsOnly("string")
-        then(openApiJsonPathContext.read<List<String>>("$productGetByIdPath.parameters[?(@.name == 'locale')].schema.default")).isEmpty()
-        then(openApiJsonPathContext.read<List<String>>("$productGetByIdPath.parameters[?(@.name == 'Authorization')].in")).containsOnly("header")
-        then(openApiJsonPathContext.read<List<Boolean>>("$productGetByIdPath.parameters[?(@.name == 'Authorization')].required")).containsOnly(true)
-        then(openApiJsonPathContext.read<List<String>>("$productGetByIdPath.parameters[?(@.name == 'Authorization')].example")).containsOnly("some example")
-        then(openApiJsonPathContext.read<List<String>>("$productGetByIdPath.parameters[?(@.name == 'Authorization')].schema.type")).containsOnly("string")
-        then(openApiJsonPathContext.read<List<String>>("$productGetByIdPath.parameters[?(@.name == 'Authorization')].schema.default")).isEmpty()
+        then(
+            openApiJsonPathContext
+                .read<List<String>>("$productGetByIdPath.parameters[?(@.name == 'id')].in")
+        ).containsOnly("path")
+        then(
+            openApiJsonPathContext
+                .read<List<Boolean>>("$productGetByIdPath.parameters[?(@.name == 'id')].required")
+        ).containsOnly(true)
+        then(
+            openApiJsonPathContext
+                .read<List<String>>("$productGetByIdPath.parameters[?(@.name == 'id')].schema.type")
+        ).containsOnly("integer")
+        then(
+            openApiJsonPathContext
+                .read<List<String>>("$productGetByIdPath.parameters[?(@.name == 'id')].schema.default")
+        ).isEmpty()
+        then(
+            openApiJsonPathContext
+                .read<List<String>>("$productGetByIdPath.parameters[?(@.name == 'locale')].in")
+        ).containsOnly("query")
+        then(
+            openApiJsonPathContext
+                .read<List<Boolean>>("$productGetByIdPath.parameters[?(@.name == 'locale')].required")
+        ).containsOnly(false)
+        then(
+            openApiJsonPathContext
+                .read<List<String>>("$productGetByIdPath.parameters[?(@.name == 'locale')].schema.type")
+        ).containsOnly("string")
+        then(
+            openApiJsonPathContext
+                .read<List<String>>("$productGetByIdPath.parameters[?(@.name == 'locale')].schema.default")
+        ).isEmpty()
+        then(
+            openApiJsonPathContext
+                .read<List<String>>("$productGetByIdPath.parameters[?(@.name == 'Authorization')].in")
+        ).containsOnly("header")
+        then(
+            openApiJsonPathContext
+                .read<List<Boolean>>("$productGetByIdPath.parameters[?(@.name == 'Authorization')].required")
+        ).containsOnly(true)
+        then(
+            openApiJsonPathContext
+                .read<List<String>>("$productGetByIdPath.parameters[?(@.name == 'Authorization')].example")
+        ).containsOnly("some example")
+        then(
+            openApiJsonPathContext
+                .read<List<String>>("$productGetByIdPath.parameters[?(@.name == 'Authorization')].schema.type")
+        ).containsOnly("string")
+        then(
+            openApiJsonPathContext
+                .read<List<String>>("$productGetByIdPath.parameters[?(@.name == 'Authorization')].schema.default")
+        ).isEmpty()
 
         then(openApiJsonPathContext.read<String>("$productGetByIdPath.requestBody")).isNull()
 
-        then(openApiJsonPathContext.read<Any>("$productGetByIdPath.responses.200.description")).isNotNull()
-        then(openApiJsonPathContext.read<Any>("$productGetByIdPath.responses.200.headers.SIGNATURE.schema.type")).isNotNull()
-        then(openApiJsonPathContext.read<Any>("$productGetByIdPath.responses.200.content.application/json.schema.\$ref")).isNotNull()
-        then(openApiJsonPathContext.read<Any>("$productGetByIdPath.responses.200.content.application/json.examples.test.value")).isNotNull()
+        then(
+            openApiJsonPathContext
+                .read<Any>("$productGetByIdPath.responses.200.description")
+        ).isNotNull
+        then(
+            openApiJsonPathContext
+                .read<Any>("$productGetByIdPath.responses.200.headers.SIGNATURE.schema.type")
+        ).isNotNull
+        then(
+            openApiJsonPathContext
+                .read<Any>("$productGetByIdPath.responses.200.content.application/json.schema.\$ref")
+        ).isNotNull
+        then(
+            openApiJsonPathContext
+                .read<Any>("$productGetByIdPath.responses.200.content.application/json.examples.test.value")
+        ).isNotNull
 
-        then(openApiJsonPathContext.read<List<List<String>>>("$productGetByIdPath.security[*].oauth2_clientCredentials").flatMap { it }).containsOnly("prod:r")
-        then(openApiJsonPathContext.read<List<List<String>>>("$productGetByIdPath.security[*].oauth2_authorizationCode").flatMap { it }).containsOnly("prod:r")
+        then(
+            openApiJsonPathContext.read<List<List<String>>>("$productGetByIdPath.security[*].oauth2_clientCredentials")
+                .flatMap { it }
+        ).containsOnly("prod:r")
+        then(
+            openApiJsonPathContext.read<List<List<String>>>("$productGetByIdPath.security[*].oauth2_authorizationCode")
+                .flatMap { it }
+        ).containsOnly("prod:r")
     }
 
     private fun thenMultiplePathParametersExist() {
         val productMultiparamPath = "paths./products/{id}-{subId}.get"
-        then(openApiJsonPathContext.read<List<String>>("$productMultiparamPath.parameters[?(@.name == 'id')].in")).containsOnly("path")
-        then(openApiJsonPathContext.read<List<String>>("$productMultiparamPath.parameters[?(@.name == 'subId')].in")).containsOnly("path")
+        then(
+            openApiJsonPathContext
+                .read<List<String>>("$productMultiparamPath.parameters[?(@.name == 'id')].in")
+        ).containsOnly("path")
+        then(
+            openApiJsonPathContext
+                .read<List<String>>("$productMultiparamPath.parameters[?(@.name == 'subId')].in")
+        ).containsOnly("path")
     }
 
     private fun thenServersPresent() {
@@ -403,16 +540,29 @@ class OpenApi3GeneratorTest {
         then(openApiJsonPathContext.read<String>("components.securitySchemes.oauth2.type")).isEqualTo("oauth2")
         then(openApiJsonPathContext.read<Map<String, Any>>("components.securitySchemes.oauth2.flows"))
             .containsKeys("clientCredentials", "authorizationCode")
-        then(openApiJsonPathContext.read<Map<String, Any>>("components.securitySchemes.oauth2.flows.clientCredentials.scopes"))
-            .containsKeys("prod:r")
-        then(openApiJsonPathContext.read<Map<String, Any>>("components.securitySchemes.oauth2.flows.authorizationCode.scopes"))
-            .containsKeys("prod:r")
+        then(
+            openApiJsonPathContext
+                .read<Map<String, Any>>("components.securitySchemes.oauth2.flows.clientCredentials.scopes")
+        ).containsKeys("prod:r")
+        then(
+            openApiJsonPathContext
+                .read<Map<String, Any>>("components.securitySchemes.oauth2.flows.authorizationCode.scopes")
+        ).containsKeys("prod:r")
     }
 
     private fun thenJWTSecuritySchemesPresent() {
-        then(openApiJsonPathContext.read<String>("components.securitySchemes.bearerAuthJWT.type")).isEqualTo("http")
-        then(openApiJsonPathContext.read<String>("components.securitySchemes.bearerAuthJWT.scheme")).isEqualTo("bearer")
-        then(openApiJsonPathContext.read<String>("components.securitySchemes.bearerAuthJWT.bearerFormat")).isEqualTo("JWT")
+        then(
+            openApiJsonPathContext
+                .read<String>("components.securitySchemes.bearerAuthJWT.type")
+        ).isEqualTo("http")
+        then(
+            openApiJsonPathContext
+                .read<String>("components.securitySchemes.bearerAuthJWT.scheme")
+        ).isEqualTo("bearer")
+        then(
+            openApiJsonPathContext
+                .read<String>("components.securitySchemes.bearerAuthJWT.bearerFormat")
+        ).isEqualTo("JWT")
     }
 
     private fun thenCustomSchemaNameOfSingleOperationAreSet() {
@@ -432,10 +582,12 @@ class OpenApi3GeneratorTest {
     }
 
     private fun thenEnumValuesAreSetInRequestAndResponse() {
-        val requestEnum = openApiJsonPathContext.read<Map<String, Any>>("components.schemas.ProductRequest.properties.someEnum")
+        val requestEnum =
+            openApiJsonPathContext.read<Map<String, Any>>("components.schemas.ProductRequest.properties.someEnum")
         then(requestEnum["enum"] as List<*>).containsExactly("FIRST_VALUE", "SECOND_VALUE", "THIRD_VALUE")
 
-        val responseEnum = openApiJsonPathContext.read<Map<String, Any>>("components.schemas.ProductResponse.properties.someEnum")
+        val responseEnum =
+            openApiJsonPathContext.read<Map<String, Any>>("components.schemas.ProductResponse.properties.someEnum")
         then(responseEnum["enum"] as List<*>).containsExactly("FIRST_VALUE", "SECOND_VALUE", "THIRD_VALUE")
     }
 
@@ -599,7 +751,7 @@ class OpenApi3GeneratorTest {
                 privateResource = false,
                 deprecated = false,
                 tags = setOf("tag1", "tag2"),
-                request = getProductRequestWithDifferentParameter("color", "Changes the color of the product"),
+                request = getProductRequestWithDifferentParameter("color", "Changes the color desc"),
                 response = getProductResponse()
             ),
             ResourceModel(
@@ -609,7 +761,7 @@ class OpenApi3GeneratorTest {
                 privateResource = false,
                 deprecated = false,
                 tags = setOf("tag1", "tag2"),
-                request = getProductRequestWithDifferentParameter("color", "Modifies the color of the product"),
+                request = getProductRequestWithDifferentParameter("color", "Modifies the color desc"),
                 response = getProductResponse()
             )
         )
@@ -973,7 +1125,9 @@ class OpenApi3GeneratorTest {
         )
     }
 
-    private fun getProductRequestWithMultiplePathParameters(getSecurityRequirement: () -> SecurityRequirements = ::getOAuth2SecurityRequirement): RequestModel {
+    private fun getProductRequestWithMultiplePathParameters(
+        getSecurityRequirement: () -> SecurityRequirements = ::getOAuth2SecurityRequirement
+    ): RequestModel {
         return RequestModel(
             path = "/products/{id}-{subId}",
             method = HTTPMethod.GET,
@@ -985,7 +1139,11 @@ class OpenApi3GeneratorTest {
         )
     }
 
-    private fun productRequestAsFormData(method: HTTPMethod, schema: Schema? = null, getSecurityRequirement: () -> SecurityRequirements = ::getOAuth2SecurityRequirement): RequestModel {
+    private fun productRequestAsFormData(
+        method: HTTPMethod,
+        schema: Schema? = null,
+        getSecurityRequirement: () -> SecurityRequirements = ::getOAuth2SecurityRequirement
+    ): RequestModel {
         return RequestModel(
             path = "/products/{id}",
             method = method,
@@ -1010,7 +1168,9 @@ class OpenApi3GeneratorTest {
         )
     }
 
-    private fun getProductRequest(getSecurityRequirement: () -> SecurityRequirements = ::getOAuth2SecurityRequirement): RequestModel {
+    private fun getProductRequest(
+        getSecurityRequirement: () -> SecurityRequirements = ::getOAuth2SecurityRequirement
+    ): RequestModel {
         return RequestModel(
             path = "/products/{id}",
             method = HTTPMethod.GET,
@@ -1168,7 +1328,7 @@ class OpenApi3GeneratorTest {
     }
 
     private fun thenOpenApiSpecIsValid() {
-        val messages = OpenAPIParser().readContents(openApiSpecJsonString, emptyList(), ParseOptions()).messages
+        val messages = OpenAPIV3Parser().readContents(openApiSpecJsonString, emptyList(), ParseOptions()).messages
         then(messages).describedAs("OpenAPI validation messages should be empty").isEmpty()
     }
 }

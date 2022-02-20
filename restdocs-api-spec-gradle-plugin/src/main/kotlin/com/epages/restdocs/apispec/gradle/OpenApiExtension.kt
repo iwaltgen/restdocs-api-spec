@@ -24,7 +24,8 @@ abstract class OpenApiBaseExtension(project: Project) : ApiSpecExtension(project
     var oauth2SecuritySchemeDefinition: PluginOauth2Configuration? = null
 
     fun setOauth2SecuritySchemeDefinition(closure: Closure<PluginOauth2Configuration>) {
-        oauth2SecuritySchemeDefinition = project.configure(PluginOauth2Configuration(), closure) as PluginOauth2Configuration
+        oauth2SecuritySchemeDefinition =
+            project.configure(PluginOauth2Configuration(), closure) as PluginOauth2Configuration
         with(oauth2SecuritySchemeDefinition!!) {
             if (scopeDescriptionsPropertiesFile != null) {
                 scopes = scopeDescriptionSource(project.file(scopeDescriptionsPropertiesFile!!))
@@ -44,19 +45,6 @@ abstract class OpenApiBaseExtension(project: Project) : ApiSpecExtension(project
 class PluginOauth2Configuration(
     var scopeDescriptionsPropertiesFile: String? = null
 ) : Oauth2Configuration()
-
-open class OpenApiExtension(project: Project) : OpenApiBaseExtension(project) {
-
-    override var outputFileNamePrefix = "openapi"
-
-    var host: String = "localhost"
-    var basePath: String? = null
-    var schemes: Array<String> = arrayOf("http")
-
-    companion object {
-        const val name = "openapi"
-    }
-}
 
 open class OpenApi3Extension(project: Project) : OpenApiBaseExtension(project) {
 

@@ -41,9 +41,7 @@ internal class ConstrainedFieldsTest {
     }
 
     private data class SomeWithConstraints(
-        @field:NotEmpty
-        val nonEmpty: String,
-
-        val nested: SomeWithConstraints?
+        @field:NotEmpty val nonEmpty: String,
+        val nested: SomeWithConstraints?,
     )
 }

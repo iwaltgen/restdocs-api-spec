@@ -43,8 +43,13 @@ class ResourceSnippet(private val resourceSnippetParameters: ResourceSnippetPara
             .use { it.append(objectMapper.writeValueAsString(model)) }
     }
 
-    private fun createModel(operation: Operation, placeholderResolverFactory: PlaceholderResolverFactory, context: RestDocumentationContext): ResourceModel {
-        val operationId = propertyPlaceholderHelper.replacePlaceholders(operation.name, placeholderResolverFactory.create(context))
+    private fun createModel(
+        operation: Operation,
+        placeholderResolverFactory: PlaceholderResolverFactory,
+        context: RestDocumentationContext,
+    ): ResourceModel {
+        val operationId =
+            propertyPlaceholderHelper.replacePlaceholders(operation.name, placeholderResolverFactory.create(context))
 
         val hasRequestBody = operation.request.contentAsString.isNotEmpty()
         val hasResponseBody = operation.response.contentAsString.isNotEmpty()
@@ -66,14 +71,16 @@ class ResourceSnippet(private val resourceSnippetParameters: ResourceSnippetPara
             deprecated = resourceSnippetParameters.deprecated,
             tags = tags,
             request = RequestModel(
-                path = getUriPath(operation),
+                path = getUriPath(operation)!!,
                 method = operation.request.method.name,
                 contentType = if (hasRequestBody) getContentTypeOrDefault(operation.request.headers) else null,
                 headers = resourceSnippetParameters.requestHeaders.withExampleValues(operation.request.headers),
                 pathParameters = resourceSnippetParameters.pathParameters.filter { !it.isIgnored },
                 requestParameters = resourceSnippetParameters.requestParameters.filter { !it.isIgnored },
                 schema = resourceSnippetParameters.requestSchema,
-                requestFields = if (hasRequestBody) resourceSnippetParameters.requestFields.filter { !it.isIgnored } else emptyList(),
+                requestFields = if (hasRequestBody) {
+                    resourceSnippetParameters.requestFields.filter { !it.isIgnored }
+                } else emptyList(),
                 example = if (hasRequestBody) operation.request.contentAsString else null,
                 securityRequirements = securityRequirements
             ),
@@ -82,7 +89,9 @@ class ResourceSnippet(private val resourceSnippetParameters: ResourceSnippetPara
                 contentType = if (hasResponseBody) getContentTypeOrDefault(operation.response.headers) else null,
                 headers = resourceSnippetParameters.responseHeaders.withExampleValues(operation.response.headers),
                 schema = resourceSnippetParameters.responseSchema,
-                responseFields = if (hasResponseBody) resourceSnippetParameters.responseFields.filter { !it.isIgnored } else emptyList(),
+                responseFields = if (hasResponseBody) {
+                    resourceSnippetParameters.responseFields.filter { !it.isIgnored }
+                } else emptyList(),
                 example = if (hasResponseBody) operation.response.contentAsString else null
             )
         )
@@ -150,5 +159,9 @@ class ResourceSnippet(private val resourceSnippetParameters: ResourceSnippetPara
         val example: String?
     )
 
-    class MissingUrlTemplateException : RuntimeException("Missing URL template - please use RestDocumentationRequestBuilders with urlTemplate to construct the request")
+    class MissingUrlTemplateException :
+        RuntimeException(
+            "Missing URL template - " +
+                "please use RestDocumentationRequestBuilders with urlTemplate to construct the request"
+        )
 }

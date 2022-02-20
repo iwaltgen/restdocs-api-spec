@@ -93,12 +93,16 @@ internal object DescriptorValidator {
                 .apply { if (h.optional) optional() }
         }
 
-    private interface ValidateableSnippet {
+    private interface ValidateSnippet {
         fun validate(operation: Operation)
     }
 
-    private fun validateIfDescriptorsPresent(descriptors: List<Any>, operation: Operation, validateableSnippetFactory: () -> ValidateableSnippet) {
-        if (descriptors.isNotEmpty()) validateableSnippetFactory().validate(operation)
+    private fun validateIfDescriptorsPresent(
+        descriptors: List<Any>,
+        operation: Operation,
+        validateSnippetFactory: () -> ValidateSnippet,
+    ) {
+        if (descriptors.isNotEmpty()) validateSnippetFactory().validate(operation)
     }
 
     /**
@@ -108,7 +112,7 @@ internal object DescriptorValidator {
      */
     private class RequestFieldsSnippetWrapper(val descriptors: List<FieldDescriptor>) :
         RequestFieldsSnippet(descriptors),
-        ValidateableSnippet,
+        ValidateSnippet,
         FieldTypeExtractor {
 
         @Suppress("UNCHECKED_CAST")
@@ -120,7 +124,7 @@ internal object DescriptorValidator {
 
     private class ResponseFieldsSnippetWrapper(val descriptors: List<FieldDescriptor>) :
         ResponseFieldsSnippet(descriptors),
-        ValidateableSnippet,
+        ValidateSnippet,
         FieldTypeExtractor {
 
         @Suppress("UNCHECKED_CAST")
@@ -144,7 +148,7 @@ internal object DescriptorValidator {
                         .firstOrNull { d.path == it["path"] }
                         ?.get("type")
                         ?.let { it as String }
-                        ?.let { JsonFieldType.valueOf(it.toUpperCase()) }
+                        ?.let { JsonFieldType.valueOf(it.uppercase()) }
                         ?.let { d.type(it) }
                 }
             }
@@ -153,7 +157,7 @@ internal object DescriptorValidator {
 
     private class PathParametersSnippetWrapper(descriptors: List<ParameterDescriptor>) :
         PathParametersSnippet(descriptors),
-        ValidateableSnippet {
+        ValidateSnippet {
         override fun validate(operation: Operation) {
             super.createModel(operation)
         }
@@ -161,7 +165,7 @@ internal object DescriptorValidator {
 
     private class RequestParameterSnippetWrapper(descriptors: List<ParameterDescriptor>) :
         RequestParametersSnippet(descriptors),
-        ValidateableSnippet {
+        ValidateSnippet {
         override fun validate(operation: Operation) {
             super.createModel(operation)
         }
@@ -169,7 +173,7 @@ internal object DescriptorValidator {
 
     private class RequestHeadersSnippetWrapper(descriptors: List<HeaderDescriptor>) :
         RequestHeadersSnippet(descriptors),
-        ValidateableSnippet {
+        ValidateSnippet {
         override fun validate(operation: Operation) {
             this.createModel(operation)
         }
@@ -177,7 +181,7 @@ internal object DescriptorValidator {
 
     private class ResponseHeadersSnippetWrapper(descriptors: List<HeaderDescriptor>) :
         ResponseHeadersSnippet(descriptors),
-        ValidateableSnippet {
+        ValidateSnippet {
         override fun validate(operation: Operation) {
             this.createModel(operation)
         }
@@ -185,7 +189,7 @@ internal object DescriptorValidator {
 
     private class LinksSnippetWrapper(descriptors: List<LinkDescriptor>) :
         LinksSnippet(HypermediaDocumentation.halLinks(), descriptors),
-        ValidateableSnippet {
+        ValidateSnippet {
         override fun validate(operation: Operation) {
             this.createModel(operation)
         }

@@ -3,7 +3,7 @@ package com.epages.restdocs.apispec
 import org.springframework.restdocs.constraints.ValidatorConstraintResolver
 import org.springframework.restdocs.payload.FieldDescriptor
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
-import org.springframework.restdocs.snippet.Attributes.key
+import org.springframework.restdocs.snippet.Attributes
 
 /**
  * ConstrainedFields can be used to add constraint information to a [FieldDescriptor]
@@ -16,11 +16,9 @@ class ConstrainedFields(private val classHoldingConstraints: Class<*>) {
      * Create a field description with constraints for bean property with the same name
      * @param path json path of the field
      */
-    fun withPath(path: String): FieldDescriptor =
-        withMappedPath(path, beanPropertyNameFromPath(path))
+    fun withPath(path: String): FieldDescriptor = withMappedPath(path, beanPropertyNameFromPath(path))
 
     /**
-     *
      * Create a field description with constraints for bean property with a name differing from the path
      * @param jsonPath json path of the field
      * @param beanPropertyName name of the property of the bean that is used to get the field constraints
@@ -33,7 +31,7 @@ class ConstrainedFields(private val classHoldingConstraints: Class<*>) {
      */
     fun addConstraints(fieldDescriptor: FieldDescriptor, beanPropertyName: String): FieldDescriptor =
         fieldDescriptor.attributes(
-            key(CONSTRAINTS_KEY)
+            Attributes.key(CONSTRAINTS_KEY)
                 .value(this.validatorConstraintResolver.resolveForProperty(beanPropertyName, classHoldingConstraints))
         )
 

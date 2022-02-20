@@ -90,7 +90,10 @@ internal object SecuritySchemeGenerator {
         }
     }
 
-    fun Operation.addSecurityItemFromSecurityRequirements(securityRequirements: SecurityRequirements?, oauth2SecuritySchemeDefinition: Oauth2Configuration?) {
+    fun Operation.addSecurityItemFromSecurityRequirements(
+        securityRequirements: SecurityRequirements?,
+        oauth2SecuritySchemeDefinition: Oauth2Configuration?
+    ) {
         if (securityRequirements != null) {
             when (securityRequirements.type) {
                 SecurityType.OAUTH2 -> oauth2SecuritySchemeDefinition?.flows?.map {
@@ -108,9 +111,10 @@ internal object SecuritySchemeGenerator {
         }
     }
 
-    private fun securityRequirements2ScopesList(securityRequirements: SecurityRequirements): List<String> {
-        return if (securityRequirements.type == SecurityType.OAUTH2 && securityRequirements.requiredScopes != null) securityRequirements.requiredScopes!! else listOf()
-    }
+    private fun securityRequirements2ScopesList(securityRequirements: SecurityRequirements): List<String> =
+        if (securityRequirements.type == SecurityType.OAUTH2 && securityRequirements.requiredScopes != null)
+            securityRequirements.requiredScopes!!
+        else listOf()
 
     private fun OAuthFlow.scopes(scopes: Set<String>, scopeAndDescriptions: Map<String, String>) =
         Scopes().apply {

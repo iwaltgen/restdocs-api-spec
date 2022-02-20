@@ -219,12 +219,12 @@ abstract class ApiSpecTaskTest {
     }
 
     protected fun thenExpectedFileFound(expectedFile: String) {
+        val pathList = Files.list(outputFolder.toPath())
+            .map {
+                it.toFile().path
+            }.toList()
         BDDAssertions.then(outputFolder.resolve(expectedFile))
-            .describedAs(
-                "Output file not found '$expectedFile' - output dir contains ${Files.list(outputFolder.toPath()).map {
-                    it.toFile().path
-                }.toList()}"
-            )
+            .describedAs("Output file not found '$expectedFile' - output dir contains $pathList")
             .exists()
     }
 

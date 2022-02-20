@@ -15,27 +15,13 @@ open class RestdocsApiSpecPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
         with(project) {
-            extensions.create(OpenApiExtension.name, OpenApiExtension::class.java, project)
             extensions.create(OpenApi3Extension.name, OpenApi3Extension::class.java, project)
-            extensions.create(PostmanExtension.name, PostmanExtension::class.java, project)
 
             afterEvaluate {
-                val openapi = extensions.findByName(OpenApiExtension.name) as OpenApiExtension
-                tasks.create<OpenApiTask>("openapi").applyWithCommonConfiguration {
-                    description = "Aggregate resource fragments into an OpenAPI 2 specification"
-                    applyExtension(openapi)
-                }
-
                 val openapi3 = extensions.findByName(OpenApi3Extension.name) as OpenApi3Extension
                 tasks.create<OpenApi3Task>("openapi3").applyWithCommonConfiguration {
                     description = "Aggregate resource fragments into an OpenAPI 3 specification"
                     applyExtension(openapi3)
-                }
-
-                val postman = extensions.findByName(PostmanExtension.name) as PostmanExtension
-                tasks.create<PostmanTask>("postman").applyWithCommonConfiguration {
-                    description = "Aggregate resource fragments into an OpenAPI 3 specification"
-                    applyExtension(postman)
                 }
             }
         }

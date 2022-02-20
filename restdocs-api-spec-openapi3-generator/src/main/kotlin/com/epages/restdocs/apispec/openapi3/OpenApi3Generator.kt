@@ -145,7 +145,11 @@ object OpenApi3Generator {
             }
     }
 
-    private fun extractOrFindSchema(schemasToKeys: MutableMap<Schema<Any>, String>, schema: Schema<Any>, schemaNameGenerator: (Schema<Any>) -> String): Schema<Any> {
+    private fun extractOrFindSchema(
+        schemasToKeys: MutableMap<Schema<Any>, String>,
+        schema: Schema<Any>,
+        schemaNameGenerator: (Schema<Any>) -> String
+    ): Schema<Any> {
         val schemaKey = if (schemasToKeys.containsKey(schema)) {
             schemasToKeys[schema]!!
         } else {
@@ -262,7 +266,12 @@ object OpenApi3Generator {
                     )
                 }
             )
-        }.apply { addSecurityItemFromSecurityRequirements(firstModelForPathAndMethod.request.securityRequirements, oauth2SecuritySchemeDefinition) }
+        }.apply {
+            addSecurityItemFromSecurityRequirements(
+                firstModelForPathAndMethod.request.securityRequirements,
+                oauth2SecuritySchemeDefinition
+            )
+        }
     }
 
     private fun operationId(operationIds: List<String>): String {
@@ -278,7 +287,9 @@ object OpenApi3Generator {
         return prefix
     }
 
-    private fun resourceModelsToRequestBody(requestModelsWithOperationId: List<RequestModelWithOperationId>): RequestBody? {
+    private fun resourceModelsToRequestBody(
+        requestModelsWithOperationId: List<RequestModelWithOperationId>
+    ): RequestBody? {
         val requestByContentType = requestModelsWithOperationId
             .filter { it.request.contentType != null }
             .groupBy { it.request.contentType!! }
@@ -296,7 +307,8 @@ object OpenApi3Generator {
                             it.request.requestFields
                         }
                     },
-                    examplesWithOperationId = requests.filter { it.request.example != null }.map { it.operationId to it.request.example!! }.toMap(),
+                    examplesWithOperationId = requests.filter { it.request.example != null }
+                        .map { it.operationId to it.request.example!! }.toMap(),
                     contentType = contentType,
                     schemaName = requests.first().request.schema?.name
                 )
@@ -310,7 +322,9 @@ object OpenApi3Generator {
             }
     }
 
-    private fun resourceModelsToApiResponses(responseModelsWithOperationId: List<ResponseModelWithOperationId>): ApiResponses? {
+    private fun resourceModelsToApiResponses(
+        responseModelsWithOperationId: List<ResponseModelWithOperationId>
+    ): ApiResponses? {
         val responsesByStatus = responseModelsWithOperationId
             .groupBy { it.response.status }
 
@@ -330,7 +344,9 @@ object OpenApi3Generator {
             }
     }
 
-    private fun responsesWithSameStatusToApiResponse(responseModelsSameStatus: List<ResponseModelWithOperationId>): ApiResponse {
+    private fun responsesWithSameStatusToApiResponse(
+        responseModelsSameStatus: List<ResponseModelWithOperationId>
+    ): ApiResponse {
         val responsesByContentType = responseModelsSameStatus
             .filter { it.response.contentType != null }
             .groupBy { it.response.contentType!! }
@@ -377,7 +393,9 @@ object OpenApi3Generator {
 
         return contentType to MediaType()
             .schema(schema)
-            .examples(examplesWithOperationId.map { it.key to Example().apply { value(it.value) } }.toMap().nullIfEmpty())
+            .examples(
+                examplesWithOperationId.map { it.key to Example().apply { value(it.value) } }.toMap().nullIfEmpty()
+            )
     }
 
     private fun extractPathParameters(resourceModel: ResourceModel): List<PathParameter> {
@@ -442,12 +460,17 @@ object OpenApi3Generator {
     }
 
     private fun simpleTypeToSchema(parameterDescriptor: AbstractParameterDescriptor): Schema<*>? {
-        return when (parameterDescriptor.type.toLowerCase()) {
-            SimpleType.BOOLEAN.name.toLowerCase() -> BooleanSchema().apply { this._default(parameterDescriptor.defaultValue?.let { it as Boolean }) }
-            SimpleType.STRING.name.toLowerCase() -> StringSchema().apply { this._default(parameterDescriptor.defaultValue?.let { it as String }) }
-            SimpleType.NUMBER.name.toLowerCase() -> NumberSchema().apply { this._default(parameterDescriptor.defaultValue?.let { it as BigDecimal }) }
-            SimpleType.INTEGER.name.toLowerCase() -> IntegerSchema().apply { this._default(parameterDescriptor.defaultValue?.let { it as Int }) }
-            else -> throw IllegalArgumentException("Unknown type '${parameterDescriptor.type}'")
+        return when (parameterDescriptor.type.lowercase()) {
+            SimpleType.BOOLEAN.name.lowercase() ->
+                BooleanSchema().apply { this._default(parameterDescriptor.defaultValue?.let { it as Boolean }) }
+            SimpleType.STRING.name.lowercase() ->
+                StringSchema().apply { this._default(parameterDescriptor.defaultValue?.let { it as String }) }
+            SimpleType.NUMBER.name.lowercase() ->
+                NumberSchema().apply { this._default(parameterDescriptor.defaultValue?.let { it as BigDecimal }) }
+            SimpleType.INTEGER.name.lowercase() ->
+                IntegerSchema().apply { this._default(parameterDescriptor.defaultValue?.let { it as Int }) }
+            else ->
+                throw IllegalArgumentException("Unknown type '${parameterDescriptor.type}'")
         }
     }
 

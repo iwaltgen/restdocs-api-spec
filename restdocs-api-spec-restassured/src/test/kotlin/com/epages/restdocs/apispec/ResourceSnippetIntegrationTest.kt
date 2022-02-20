@@ -11,13 +11,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.context.ConfigurableApplicationContext
+import org.springframework.hateoas.EntityModel
 import org.springframework.hateoas.Link
-import org.springframework.hateoas.Resource
-import org.springframework.hateoas.mvc.BasicLinkBuilder
+import org.springframework.hateoas.server.mvc.BasicLinkBuilder
 import org.springframework.http.HttpHeaders.ACCEPT
 import org.springframework.http.HttpHeaders.CONTENT_TYPE
 import org.springframework.http.ResponseEntity
-import org.springframework.restdocs.RestDocumentationContextProvider
 import org.springframework.restdocs.headers.HeaderDocumentation.headerWithName
 import org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
@@ -40,12 +39,12 @@ open class ResourceSnippetIntegrationTest {
 
     lateinit var resultActions: ResultActions
 
-    private lateinit var app: ResourceSnippetIntegrationTest.TestApplication
+    private lateinit var app: TestApplication
     protected var serverPort: Int? = null
 
     @BeforeEach
-    fun setUp(restDocumentation: RestDocumentationContextProvider) {
-        app = ResourceSnippetIntegrationTest.TestApplication()
+    fun setUp() {
+        app = TestApplication()
         app.main(arrayOf("--server.port=0"))
         serverPort = app.applicationContext.environment.getProperty("local.server.port")?.toInt()
     }
@@ -71,17 +70,19 @@ open class ResourceSnippetIntegrationTest {
                 @PathVariable otherId: Int?,
                 @RequestHeader("X-Custom-Header") customHeader: String,
                 @RequestBody testDataHolder: TestDataHolder
-            ): ResponseEntity<Resource<TestDataHolder>> {
-                val resource = Resource(testDataHolder.copy(id = UUID.randomUUID().toString()))
-                val link = BasicLinkBuilder.linkToCurrentMapping().slash("some").slash(someId).slash("other").slash(otherId).toUri().toString()
-                resource.add(Link(link, Link.REL_SELF))
-                resource.add(Link(link, "multiple"))
-                resource.add(Link(link, "multiple"))
+            ): ResponseEntity<EntityModel<TestDataHolder>> {
+                val resource = EntityModel.of(testDataHolder.copy(id = UUID.randomUUID().toString()))
+                val link =
+                    BasicLinkBuilder.linkToCurrentMapping().slash("some").slash(someId).slash("other").slash(otherId)
+                        .toUri().toString()
+                resource.add(Link.of(link).withSelfRel())
+                resource.add(Link.of(link, "multiple"))
+                resource.add(Link.of(link, "multiple"))
 
                 return ResponseEntity
                     .ok()
                     .header("X-Custom-Header", customHeader)
-                    .body<Resource<TestDataHolder>>(resource)
+                    .body<EntityModel<TestDataHolder>>(resource)
             }
         }
     }

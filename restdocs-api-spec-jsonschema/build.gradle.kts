@@ -1,29 +1,23 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
+    java
     kotlin("jvm")
     signing
 }
 
-repositories {
-    mavenCentral()
-}
-
-val jacksonVersion: String by extra
-val junitVersion: String by extra
-
 dependencies {
-    compile(kotlin("stdlib-jdk8"))
-    compile(project(":restdocs-api-spec-model"))
-    compile("com.github.erosb:everit-json-schema:1.11.0")
-    compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-    compile("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+    compileOnly(kotlin("stdlib-jdk8"))
 
-    testCompile("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
-    testCompile("com.github.java-json-tools:json-schema-validator:2.2.10")
-    testCompile("com.jayway.jsonpath:json-path:2.4.0")
-    testCompile("org.assertj:assertj-core:3.10.0")
-    testCompile("javax.validation:validation-api:2.0.1.Final")
+    implementation(project(":restdocs-api-spec-model"))
+
+    implementation("com.fasterxml.jackson.core:jackson-databind")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("com.github.erosb:everit-json-schema:1.11.0")
+
+    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("com.jayway.jsonpath:json-path")
+    testImplementation("org.assertj:assertj-core")
+    testImplementation("javax.validation:validation-api")
+    testImplementation("com.github.java-json-tools:json-schema-validator:2.2.14")
 }
 
 publishing {

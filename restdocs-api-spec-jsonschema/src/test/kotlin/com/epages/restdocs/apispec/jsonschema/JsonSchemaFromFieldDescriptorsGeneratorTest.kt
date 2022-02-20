@@ -365,7 +365,7 @@ class JsonSchemaFromFieldDescriptorsGeneratorTest {
     }
 
     @Test
-    fun should_specify_accurate_items_type_in_array_of_array_when_descriptor_contains_itemsType_in_additionalParameters() {
+    fun should_specify_accurate_items_type_in_array_of_array_when_descriptor_contains_itemsType_in_addParameters() {
         givenFieldDescriptorWithTopLevelArrayOfArrayOfSingleType()
 
         whenSchemaGenerated()
@@ -386,7 +386,8 @@ class JsonSchemaFromFieldDescriptorsGeneratorTest {
         then(schema).isInstanceOf(ObjectSchema::class.java)
         then((schema as ObjectSchema).definesProperty("thisIsAnArray")).isTrue
         then((schema as ObjectSchema).propertySchemas["thisIsAnArray"]).isInstanceOf(ArraySchema::class.java)
-        val objectInArray = ((schema as ObjectSchema).propertySchemas["thisIsAnArray"] as ArraySchema).allItemSchema as ObjectSchema
+        val objectInArray =
+            ((schema as ObjectSchema).propertySchemas["thisIsAnArray"] as ArraySchema).allItemSchema as ObjectSchema
         then(objectInArray.definesProperty("numberItem")).isTrue
         then(objectInArray.propertySchemas["numberItem"]).isInstanceOf(NumberSchema::class.java)
         then(objectInArray.definesProperty("objectItem")).isTrue
@@ -408,7 +409,8 @@ class JsonSchemaFromFieldDescriptorsGeneratorTest {
         then(objectInArray.definesProperty("thisIsAnArray")).isTrue
         then(objectInArray.propertySchemas["thisIsAnArray"]).isInstanceOf(ArraySchema::class.java)
         then(objectInArray.propertySchemas["thisIsAnArray"]?.description).isEqualTo("I'm another array")
-        val objectInNestedArray = (objectInArray.propertySchemas["thisIsAnArray"] as ArraySchema).allItemSchema as ObjectSchema
+        val objectInNestedArray =
+            (objectInArray.propertySchemas["thisIsAnArray"] as ArraySchema).allItemSchema as ObjectSchema
         then(objectInNestedArray.definesProperty("numberItem")).isTrue
         then(objectInNestedArray.propertySchemas["numberItem"]).isInstanceOf(NumberSchema::class.java)
         then(objectInNestedArray.definesProperty("objectItem")).isTrue

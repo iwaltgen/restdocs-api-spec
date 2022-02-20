@@ -18,9 +18,10 @@ internal object ApiSpecificationWriter {
         }
     }
 
-    fun supportedFormats() = yamlFormats + jsonFormats
+    private fun supportedFormats() = yamlFormats + jsonFormats
 
-    fun validateFormat(format: String) {
-        if (!supportedFormats().contains(format)) throw IllegalArgumentException("Format '$format' is invalid - supported formats are '${supportedFormats()}'")
+    private fun validateFormat(format: String) {
+        if (!supportedFormats().contains(format))
+            throw IllegalArgumentException("Format '$format' is invalid - supported '${supportedFormats()}'")
     }
 }

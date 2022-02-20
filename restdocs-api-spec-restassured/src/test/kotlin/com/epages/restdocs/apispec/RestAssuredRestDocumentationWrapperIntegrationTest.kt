@@ -53,10 +53,10 @@ class RestAssuredRestDocumentationWrapperIntegrationTest : ResourceSnippetIntegr
             .accept(MediaTypes.HAL_JSON_VALUE)
             .body(
                 """{
-                            "comment": "some",
-                            "flag": $flagValue,
-                            "count": 1
-                        }
+                        "comment": "some",
+                        "flag": $flagValue,
+                        "count": 1
+                    }
                 """.trimIndent()
             )
             .`when`()
@@ -85,7 +85,9 @@ class RestAssuredRestDocumentationWrapperIntegrationTest : ResourceSnippetIntegr
 
     @Test
     fun should_value_ignored_fields_and_links() {
-        assertThatCode { givenEndpointInvoked(this.whenDocumentedWithAllFieldsLinksIgnored()) }.doesNotThrowAnyException()
+        assertThatCode {
+            givenEndpointInvoked(this.whenDocumentedWithAllFieldsLinksIgnored())
+        }.doesNotThrowAnyException()
     }
 
     @Test
@@ -121,11 +123,17 @@ class RestAssuredRestDocumentationWrapperIntegrationTest : ResourceSnippetIntegr
     }
 
     private fun whenResourceSnippetDocumentedWithoutParameters(): RestDocumentationFilter {
-        return RestAssuredRestDocumentationWrapper.document(identifier = operationName, snippets = arrayOf(ResourceDocumentation.resource()))
+        return RestAssuredRestDocumentationWrapper.document(
+            identifier = operationName,
+            snippets = arrayOf(ResourceDocumentation.resource())
+        )
     }
 
     private fun whenResourceSnippetDocumentedWithDescription(): RestDocumentationFilter {
-        return RestAssuredRestDocumentationWrapper.document(identifier = operationName, snippets = arrayOf(ResourceDocumentation.resource("A description")))
+        return RestAssuredRestDocumentationWrapper.document(
+            identifier = operationName,
+            snippets = arrayOf(ResourceDocumentation.resource("A description"))
+        )
     }
 
     private fun whenResourceSnippetDocumentedWithRequestAndResponseFields(): RestDocumentationFilter {

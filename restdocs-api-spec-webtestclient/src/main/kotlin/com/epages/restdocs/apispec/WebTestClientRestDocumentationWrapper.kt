@@ -96,7 +96,15 @@ object WebTestClientRestDocumentationWrapper : RestDocumentationWrapper() {
         responsePreprocessor: OperationResponsePreprocessor,
         vararg snippets: Snippet
     ): Consumer<EntityExchangeResult<T>> {
-        return document(identifier, null, null, false, false, responsePreprocessor = responsePreprocessor, snippets = snippets)
+        return document(
+            identifier,
+            null,
+            null,
+            false,
+            false,
+            responsePreprocessor = responsePreprocessor,
+            snippets = snippets
+        )
     }
 
     @JvmStatic
@@ -106,7 +114,16 @@ object WebTestClientRestDocumentationWrapper : RestDocumentationWrapper() {
         responsePreprocessor: OperationResponsePreprocessor,
         vararg snippets: Snippet
     ): Consumer<EntityExchangeResult<T>> {
-        return document(identifier, null, null, false, false, requestPreprocessor, responsePreprocessor, snippets = snippets)
+        return document(
+            identifier,
+            null,
+            null,
+            false,
+            false,
+            requestPreprocessor,
+            responsePreprocessor,
+            snippets = snippets
+        )
     }
 
     @JvmStatic

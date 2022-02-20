@@ -1,7 +1,6 @@
 package com.epages.restdocs.apispec.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import java.util.Comparator
 
 data class ResourceModel(
     val operationId: String,

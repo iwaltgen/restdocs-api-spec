@@ -76,6 +76,7 @@ abstract class RestdocsOpenApiTaskTestBase : ApiSpecTaskTest() {
             """.trimIndent()
         )
     }
+
     private fun givenTagsTextFile() {
         testProjectDir.resolve("tagDescriptions.yaml").toFile().writeText(
             """
