@@ -46,7 +46,7 @@ val scmVer = scmVersion.version!!
 
 allprojects {
 
-    group = "com.epages"
+    group = "com.keecon"
     version = scmVer
 
     apply(plugin = "java")

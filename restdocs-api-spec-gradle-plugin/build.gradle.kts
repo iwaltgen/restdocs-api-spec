@@ -7,29 +7,29 @@ plugins {
 
 gradlePlugin {
     plugins {
-        register("com.epages.restdocs-api-spec") {
-            id = "com.epages.restdocs-api-spec"
-            implementationClass = "com.epages.restdocs.apispec.gradle.RestdocsApiSpecPlugin"
+        register("com.keecon.restdocs-openapi3") {
+            id = "com.keecon.restdocs-openapi3"
+            implementationClass = "com.keecon.restdocs.apispec.gradle.RestdocsOpenApi3Plugin"
         }
     }
 }
 
 pluginBundle {
-    website = "https://github.com/ePages-de/restdocs-api-spec"
-    vcsUrl = "https://github.com/ePages-de/restdocs-api-spec"
-    tags = listOf("spring", "restdocs", "openapi", "openapi3", "postman", "api", "specification")
+    website = "https://github.com/keecon/restdocs-openapi3"
+    vcsUrl = "https://github.com/keecon/restdocs-openapi3"
+    tags = listOf("spring", "restdocs", "openapi3", "api", "specification")
     description =
-        "Extends Spring REST Docs with API specifications in OpenAPI2, OpenAPI3 and Postman Collections formats"
+        "Extends Spring REST Docs with API specifications in OpenAPI3 formats"
 
     (plugins) {
-        "com.epages.restdocs-api-spec" {
-            displayName = "restdocs-api-spec gradle plugin"
+        "com.keecon.restdocs-openapi3" {
+            displayName = "restdocs-openapi3 gradle plugin"
         }
     }
 
     mavenCoordinates {
-        groupId = "com.epages"
-        artifactId = "restdocs-api-spec-gradle-plugin"
+        groupId = "com.keecon"
+        artifactId = "restdocs-openapi3-gradle-plugin"
     }
 }
 

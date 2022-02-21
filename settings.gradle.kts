@@ -1,3 +1,4 @@
+rootProject.name = "restdoc-openapi3"
 include(
     ":restdocs-api-spec",
     ":restdocs-api-spec-model",
