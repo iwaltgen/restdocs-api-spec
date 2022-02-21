@@ -1,30 +1,23 @@
 plugins {
+    java
     kotlin("jvm")
     signing
 }
 
-repositories {
-    mavenCentral()
-}
-
-val jacksonVersion: String by extra
-val junitVersion: String by extra
-
 dependencies {
-    compile(kotlin("stdlib-jdk8"))
+    compileOnly(kotlin("stdlib-jdk8"))
 
-    compile(project(":restdocs-api-spec-model"))
-    compile(project(":restdocs-api-spec-jsonschema"))
+    implementation(project(":restdocs-api-spec-model"))
+    implementation(project(":restdocs-api-spec-jsonschema"))
 
-    compile("io.swagger.core.v3:swagger-core:2.1.3")
-    compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-    compile("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+    implementation("com.fasterxml.jackson.core:jackson-databind")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("io.swagger.core.v3:swagger-core:2.1.13")
 
-    testImplementation("io.swagger:swagger-parser:2.0.0-rc1")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
-    testImplementation("org.assertj:assertj-core:3.10.0")
-
-    testImplementation("com.jayway.jsonpath:json-path:2.4.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("org.assertj:assertj-core")
+    testImplementation("com.jayway.jsonpath:json-path")
+    testImplementation("io.swagger.parser.v3:swagger-parser:2.0.30")
 }
 
 publishing {

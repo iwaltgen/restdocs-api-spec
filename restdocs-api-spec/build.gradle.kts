@@ -1,37 +1,25 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
+    java
     kotlin("jvm")
     signing
 }
-repositories {
-    mavenCentral()
-}
-
-val jacksonVersion: String by extra
-val springBootVersion: String by extra
-val springRestDocsVersion: String by extra
-val junitVersion: String by extra
-
 dependencies {
-    compile(kotlin("stdlib-jdk8"))
-    compile(kotlin("reflect"))
+    compileOnly(kotlin("stdlib-jdk8"))
+    compileOnly(kotlin("reflect"))
 
-    compile("org.springframework.restdocs:spring-restdocs-core:$springRestDocsVersion")
-    compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-    compile("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.restdocs:spring-restdocs-core")
+    implementation("com.fasterxml.jackson.core:jackson-databind")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
-    testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
-        exclude("junit")
-    }
-    testCompile("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
-    testImplementation("org.junit-pioneer:junit-pioneer:0.2.2")
-    testCompile("org.springframework.boot:spring-boot-starter-hateoas:$springBootVersion")
-    testCompile("org.hibernate.validator:hibernate-validator:6.0.10.Final")
-    testCompile("org.assertj:assertj-core:3.10.0")
-    testCompile("com.jayway.jsonpath:json-path:2.3.0")
-
-    testImplementation("com.github.java-json-tools:json-schema-validator:2.2.10")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("org.junit-pioneer:junit-pioneer:0.3.3")
+    testImplementation("org.springframework.boot:spring-boot-starter-hateoas")
+    testImplementation("org.hibernate.validator:hibernate-validator")
+    testImplementation("org.assertj:assertj-core")
+    testImplementation("com.jayway.jsonpath:json-path")
+    testImplementation("com.github.java-json-tools:json-schema-validator:2.2.14")
     testImplementation("com.github.erosb:everit-json-schema:1.11.0")
 }
 

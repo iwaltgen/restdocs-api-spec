@@ -1,19 +1,13 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-val jacksonVersion: String by extra
-
 plugins {
+    java
     kotlin("jvm")
     signing
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    compile(kotlin("stdlib-jdk8"))
-    implementation("com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion")
+    compileOnly(kotlin("stdlib-jdk8"))
+
+    implementation("com.fasterxml.jackson.core:jackson-annotations")
 }
 
 publishing {
